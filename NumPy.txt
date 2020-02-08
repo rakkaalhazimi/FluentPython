@@ -1,0 +1,348 @@
+				A. UNDERSTANDING DATA TYPES IN PYTHON
+
+Page 35.
+	A single integer in Python actually contains four pieces:
+	1. ob_refcnt, a reference count that helps Python silently handle memory allocation
+	   and deallocation
+
+	2. ob_type, which encodes the type of the variable
+
+	3. ob_size, which specifies the size of the following data members
+
+	4. ob_digit, which contains the actual integer value that we expect the Python variable
+	   to represent
+	
+	A Python integer is a pointer to a position in memory containing all the Python 
+	object information, including the bytes that contain the integer value. This extra 
+	information in the Python integer structure is what allows Python to be coded so 
+	freely and dynamically.
+
+
+Page 37.
+	Python list is flexible even you can create heterogenous list, each item in the list 
+	must contains it own type info, reference count and other information, each item is a
+	complete python object. It flexibility often cause redundancy, thus it is more efficient
+	to store the data in a fixed type array (like NumPy array)
+
+
+Page 38.
+	Create array in python with "import array". array.array("class name", sequence)
+
+
+Page 39.
+	Create array from python list
+	np.array([list])
+
+
+Page 40.
+	Create NumPy array from scratch:
+
+	1. Create a length-10 integer array filled with zeros			np.zeros(10, dtype=int)
+
+	2. Create a 3x5 floating-point array filled with 1s			np.ones((3, 5), dtype=float)
+
+	3. Create a 3x5 array filled with 3.14					np.full((3, 5), 3.14)
+
+	4. Create an array filled with a linear sequence			np.arange(0, 20, 2)
+
+	5. Create an array of five values evenly spaced between 0 and 1		np.linspace(0, 1, 5)
+
+	6. Create a 3x3 array of uniformly distributed				np.random.random((3,3))
+	   random values between 0 and 1
+
+	7. Create a 3x3 array of normally distributed random values		np.random.normal(0, 1, (3, 3))
+	   with mean 0 and standard deviation 1
+
+	8. Create a 3x3 array of random integers in the interval (0, 10)	np.random.randint(0, 10, (3, 3))
+
+	9. Create a 3x3 identity matrix						np.eye(3)
+		
+	10.Create an uninitialized array of three integers			np.empty(3)
+
+
+
+
+				B. THE BASIC OF NUMPY ARRAYS
+
+Page 42.
+	NumPy array attributes: .ndim (number of dimension), .shape (the size of each dimension), .size (the total size of the array)
+
+
+Page 43.
+	Multidimensional array indexing notations is arr[x, y] , where x is row and y is column.
+	Modify the values using: x[0, 0] = 2	
+
+	Keep in mind you can't insert floating-point value in integer array, otherwise it will be truncated.
+
+
+Page 44.
+	Array subslicing use notation [start : stop : step], default start=0, stop=size of dimensions, step=1.
+
+
+Page 45.  
+	Array slicing negative 'step' (0, 10, -1)
+
+
+Page 46.
+	Array slice return view rather than copy, any change in subarray will result in change of original array.
+
+
+Page 47.
+	You can instead copy the array with copy() method. 	x[0:, :].copy()
+
+	Array can be reshape with reshape() method. 		np.arange(1,10).reshape((3, 3))
+
+	Perform row vector with 				x[np.newaxis, :] # your 1d array will became 2d array row.
+
+	Perform column  vector with 				x[:, np.newaxis] # same as above but became 2d array column.
+
+
+Page 48.
+	Concatenate arrays	 				np.concatenate([array1, array2])
+
+	Concatenate along the second axis (zero-indexed)	np.concatenate([grid, grid], axis=1)
+		
+	vertically stack the arrays				np.vstack([x, grid])
+
+	horizontally stack the arrays				np.hstack([grid, y])
+	
+
+Page 49.
+	Split array vertically					upper, lower = np.vsplit(grid, [2])
+	
+	Split array horizontally				left, right = np.hsplit(grid, [2])
+
+
+
+
+
+				C. COMPUTATION ON NUMPY ARRAYS: UNIVERSAL FUNCTIONS
+
+Page 51.
+	NumPy support vectorized operation (ufunct), which make computation much faster. 
+	This vectorized approach is designed to push the loop into  the compiled layer that underlies NumPy.
+	
+	You can acclompish it by simply
+	performing an operation on array ex. "array / 2"
+
+
+Page 53.
+	List of implemented operators in NumPy
+	+	np.add
+	-	np.subtract
+	-	np.negative
+	*	np.multiply
+	/	np.divide
+	//	np.flood_divide
+	**	np.power
+	%	np.mod
+
+
+Page 54.
+	NumPy can make absolute value with			np.absolute(x) or np.abs(x)
+
+
+	NumPy can perform trigonometric func			np.sin(x), np.cos(x), np.tan(x)
+
+
+page 55.
+	Exponentials function					np.exp(x), np.exp2(x), np.power(3, x)
+	
+	Basic Logarithma function				np.log(x), np.log2(x), np.log10(x)
+
+
+Page 56.
+	Scipy SubModule ufunction				from scipy import special
+								special.gamma(x)						
+								special.gammaln(x)
+								special.beta(x, 2)
+
+Page 57
+	You can specify the array where the result of calculation will be stored.	np.ufunc(x, y, out=array1)
+	
+	if we’d like to reduce an array with a particular operation, we can use the reduce method of any ufunc.		
+	np.ufunc.reduce(x)
+
+	if we'd like to store all the intermediate results of the computation, we can instead use accumulate:		
+	np.ufunc.accumulate(x)
+
+
+
+
+				D. AGGREGATIONS: MIN, MAX, AND EVERYTHING IN BETWEEN
+	
+Page 60.  
+Axis behaviour (axis=0, row collapsed, 
+		axis=1, column collapsed)
+
+
+Page 61.
+	Funcion Name	Nan-safe Version	Description
+
+	np.sum 		np.nansum 		Compute sum of elements
+	np.prod 	np.nanprod 		Compute product of elements
+	np.mean 	np.nanmean 		Compute median of elements
+	np.std 		np.nanstd 		Compute standard deviation
+	np.var 		np.nanvar 		Compute variance
+	np.min 		np.nanmin 		Find minimum value
+	np.max 		np.nanmax 		Find maximum value
+	np.argmin 	np.nanargmin 		Find index of minimum value
+	np.argmax 	np.nanargmax 		Find index of maximum value
+	np.median 	np.nanmedian 		Compute median of elements
+	np.percentile 	np.nanpercentile 	Compute rank-based statistics of elements
+	np.any 		N/A 			Evaluate whether any elements are true
+	np.all 		N/A 			Evaluate whether all elements are true
+
+
+
+
+				E. COMPUTATION ON ARRAYS: BROADCASTING
+
+Page 63.
+	Broadcasting is a set of rules for applying binary ufuncs (addition, subtraction, etc.) on arrays of different sizes
+	
+	ex. M = 2d array, a = 1d array.		M + a = result is in the same dimensions  
+
+
+Page 65.
+	Rule of Broadcasting:
+
+	Rule 1: If the two arrays differ in their number of dimensions, the shape of the
+		one with fewer dimensions is padded with ones on its leading (left) side.
+
+	Rule 2: If the shape of the two arrays does not match in any dimension, the array
+		with shape equal to 1 in that dimension is stretched to match the other shape.
+
+	Rule 3: If in any dimension the sizes disagree and neither is equal to 1, an error is
+		raised.
+
+
+
+
+				F. COMPARISON, MASKS, AND BOOLEAN LOGIC
+
+Page 72.
+	NumPy also implements comparison operators such as < (less than) and > (greater than) as element-wise ufuncs.
+	The result of these comparison operators is always an array with a Boolean data type.
+	
+	Operator	Equivalent func.
+	== 		np.equal
+	!= 		np.not_equal
+	< 		np.less
+	<= 		np.less_equal
+	> 		np.greater
+	>= 		np.greater_equal
+
+
+Page 73.
+	Working with boolean arrays:
+
+	how many values less than 6?					np.count_nonzero(x < 6)
+
+	how many values less than 6 in each row?			np.sum(x < 6, axis=1)
+
+	are there any values greater than 8?				np.any(x > 8)
+
+	are there any values less than zero?				np.any(x < 0)
+
+	are all values less than 10?					np.all(x < 10)
+
+	are all values equal to 6?					np.all(x == 6)
+
+	are all values in each row less than 8?				np.all(x < 8, axis=1)
+
+
+Page 75.
+	Boolean Operators:
+	
+	Operator 	Equivalent ufunc
+	& 		np.bitwise_and		
+	| 		np.bitwise_or
+	^ 		np.bitwise_xor
+	~ 		np.bitwise_not
+
+	Examples:
+	How many values between 0.5 and 1				np.sum((inches > 0.5) & (inches < 1))
+	
+	
+	Boolean Array as Masks
+	A more powerful pattern is to use Boolean arrays as masks, to select particular subsets of the data themselves.
+	
+	array of all values in the array that are less than 5		x[x < 5]
+
+
+
+
+				G. FANCY INDEXING
+
+Page 78.
+	Fancy indexing is like the simple indexing we’ve already seen, but we pass
+	arrays of indices in place of single scalars. This allows us to very quickly access and
+	modify complicated subsets of an array’s values.
+
+Page 79.
+	Suppose we want to access three different elements. We could do it like this:
+	
+	[x[3], x[7], x[4]]
+
+	Alternatively, we can pass a single list or array of indices to obtain the same result:
+	
+	ind = [3, 7, 4]
+	x[ind]
+
+Page 80.
+	Combined Indexing
+	For even more powerful operations, fancy indexing can be combined with the other
+	indexing schemes we’ve seen:
+	
+	Combine fancy and simple indices				x[2, [2, 0, 1]]
+	
+	Combine fancy indexing slicing					x[1:, [2, 0, 1]]
+
+	Combine fancy indexing with masking				x[row[:, np.newaxis], mask]
+
+
+Page 82.
+	Modifying Values with fancy indexing
+	
+	change specific indices values
+		i = np.array([2, 1, 8, 4])
+		x[i] = 99
+	
+	for repeated operation
+		i = np.array([2, 2, 3, 3, 3, 4, 4, 4])
+		np.add.at(x, i, 1)
+
+
+
+
+				H. SORTING ARRAY
+
+Page 87.
+	Fast sorting in NumPy
+
+	return a sorted version of the array without modifying the input	np.sort(x) or x.sort() method
+
+	returns the indices of the sorted elements				np.argsort(x)
+
+	sort each column of x							np.sort(x, axis=0)
+
+	sort each row of x							np.sort(x, axis=1)
+
+
+Page 88.
+	Partial Sorts: Partitioning
+	
+	np.partition takes an array and a number K; the result is a new array with the smallest
+	K values to the left of the partition, and the remaining values to the right, in arbitrary
+	order:
+
+	In[12]: x = np.array([7, 2, 3, 1, 6, 5, 4])
+
+	np.partition(x, 3) # K number is 3
+
+	Out[12]: array([2, 1, 3, 4, 6, 5, 7]) # values in index 3 is 4, which means 4 is in the place where the array is sorted.
+	
+	
+
+	

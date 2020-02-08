@@ -1,0 +1,110 @@
+B. Pandas
+
+
+1. Data Indexing and Selections
+
+Page 110. loc is explicit indexing while iloc is implicit indexing
+
+Page 114. Slicing refer to rows, while indexing refer to column
+
+
+
+2. Hierarcial Indexing
+
+Page 129. The better way to Multiply Indexed Series is pd.MultiIndex()
+
+Page 133. Change the index name with index.name/s()
+
+Page 136. You can't slicing in tuples instead using 		                              pd.IndexSlice() or Python builtins slice()
+
+	 Unsorted multi-indices will bring you trouble, use 	                              sort_index() and sort_level()
+
+Page 139. reset_index() can be use to multiple index and will result in the new column that was formerly the index
+
+	  You can revert the reset_index() with set_index().
+	  The arguments needed is an array of previous index names
+
+
+3. Combining Datasets: Merge, Join, Concatenation, Append
+	
+Page 147. Categories of joins:
+		1. One to one (no duplicate value)
+		2. Many to one  (only one duplicate value)
+		3. Many to many (more than one duplicate value)
+
+Page 153. join arguments (pd.concat) 'outer' is union, while 'inner' is intersection
+	  'left' use only keys from left frame, vice versa
+
+
+4. Aggregation and Grouping
+
+Page 162. groupby() consist of split, apply and combine methods
+
+Page 166. filter(), drop data based on the group properties
+	  transform() and apply() does the different things
+	  but share the same concept "change data based on
+	  the group properties"
+
+5. Pivot Table
+
+Page 170. Pivot Table is multidimensional version of Groupby
+
+Page 172. pd.cut/qcut() is use to bin values into discrete intervals
+
+Page 175. Cleaning data (remove outlier)
+
+
+6. String Method
+
+Page 183. get_dummy() use example
+
+
+7. Data Time Series
+
+Page 193. datetime formats, any datetimeIndex() can be converted to periodIndex()
+		
+	  pd.date_range() for timestamps
+	  pd.period_range() for periods
+	  pd.timedelta_range() for time deltas
+
+Page 198. resample() = data aggregation
+	  asfreq() = data selection
+
+Page 199. timeshift, shift() shifts the data
+		     tshift() shifts the index
+
+Page 201. rolling statistic returns a view similar to groupby, data aggregation. But
+	  with specified number. ex. rolling(10)
+
+Page 212. df.eval() treat columns name as variable. ex. df.eval('A + B')
+	   !
+
+Page 212. character @ in eval, marks a variable name rather than column name.
+	  Works in df.eval(), didn't work in pd.eval().
+
+Page 214. query() expression is an alternative way of masking dataframe/series.
+
+
+
+EXTRA
+
+Convert timedelta64[ns] to seconds with series.dt.total_seconds()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

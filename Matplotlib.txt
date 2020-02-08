@@ -1,0 +1,442 @@
+			A. GENERAL MATPLOTLIB TIPS
+Page 220. 
+	%matplotlib inline lead to static image of your plot, so you plt.show() is unnecessary
+
+Page 221. 
+	save figure with fig.savefig(filename)
+
+Page 222. 
+	-plt.subplot- 
+	add a subplot to the current figure.
+	  
+	plt.subplot(2, 1, 1) # rows, column, panel number
+	  
+	plt.subplot(211) # equivalent with above
+
+Page 223. 
+	-plt.subplots-
+	create a figure and add some subplots
+	  
+	fig, (ax1, ax2) = plt.subplots(2)
+
+
+				
+
+
+				B. SIMPLE LINE PLOTS
+Page 224. 
+	-plt.figure() ; plt.axes()-
+	create simple figure and axes
+
+
+Page 229. 
+	-plt.xlim(left, right) ; plt.ylim(bot, top)-
+
+ 	-plt.axis([bot, top, left, right])-
+	method allows you to set the x and y limits with a single call
+	  
+	-plt.axis('tight')-
+	tighten the bounds around the plot
+	  
+	-plt.axis('equal')- 
+	ensuring equal aspect ratio, x = y (symetric)
+
+
+Page 231. 
+	Labeling plot examples: (plt) .title; .xlabel; y.label;
+
+	-plt.legend()-
+	plot legend that labels each line type
+
+
+Page 232. 
+	Rather than calling plt function individually, use ax.set() instead.
+	-ax.set(xlim=, ylim=, xlabel=, ylabel=, title=)-
+
+
+
+
+
+				C. SIMPLE SCATTER PLOT
+Page 233. 
+	Scatter plot, plot whose points are represented individually with a dot, circle or other shape.
+
+
+Page 234. 
+	You can join line color and styles
+	plt.plot(x, y, '-ok'); # line(-), marker(o), black(k)
+
+
+Page 235. 
+	Create scatter plot with plt.scatter(). 
+	Other than plt.plot, plt.scatter could control or map each individual point to data.
+
+
+
+
+
+				D. VISUALIZING ERRORS
+Page 237.
+	plt.plot is more efficient than plt.scatter because the points are essentially clones of each other, 
+	thus performance is good on large datasets.
+
+	plt.scatter renders every points individually, so it takes more effort to display the plot.
+
+
+Page 238.
+	-plt.errorbar(x, y, xerr, yerr, fmt)-
+	plots error bar with x, y as data location and xerr, yerr as errorbar sizes
+
+
+Page 240.
+	Alternative way to show error is using plt.fill_between()
+
+	-plt.fill_between(x, y1, y2=0)-
+	fill the area between two horizontal curves, (x, y1) and (x, y2).
+
+				
+
+
+
+				E. DENSITY AND CONTOUR PLOT
+Page 241.
+	A contour plot can be created with plt.contour(x, y, z)
+	x and y values represent position on the plot (coordinates of Z)
+	z values will be represented by the contour levels (height values)
+
+
+Page 242.
+	Negative values in contour plot represented by dashed line
+	Positive values in contour plot represented by solid line
+	plt.contourf() made filled contour version
+	plt.colorbar() will create additional axis with labeled color	
+
+
+Page 243.
+	plt.imshow() doesn't accept an x and y grid, so you must specify the extend [xmin, xmax, ymin, ymax] manually.
+	
+	plt.imshow() follow standard image array definition where the origin is in upper left, not in bottom left. [use origin='lower']
+
+	plt.imshow() will automatically adjust the axis aspects ratio to match the input data, this can be changed with plt.axis			(aspect='image')
+
+
+Page 244.
+	use plt.clabel() to label a contour plot
+
+
+
+
+
+			F. HISTOGRAM, BINNINGS, AND DENSITY
+Page 245.
+	-plt.hist()
+
+	Plot a histogram
+
+
+Page 246.
+	plt.hist(histtype = 'stepfilled') useful for comparing several distribution
+	
+	counts the bin numbers with np.histogram()
+	counts, bin_edges = np.histogram(data, bins=5)
+	
+
+Page 247
+	-plt.hist2d(x, y, bins)-
+	plot 2d histogram
+	same with plt.hist, np.histogram2d can be use to counts bin
+
+
+Page 248.
+	-plt.hexbin(x, y, C)-
+	Make a hexagonal binning plot
+
+				
+	
+
+			
+				G. CUSTOMIZING PLOT LEGENDS
+Page 250.
+	plt.legend(loc='upper left', frameon=False, ncol=2)
+	loc = legend location
+	frameon = Make frame if True
+	ncol = number of columns
+
+
+Page 251. 
+	choose which label to appear with passing plt.plot() object
+	lines = plt.plot(x, y)
+	plt.legend(lines[:2], ['first', 'second']
+
+
+Page 252. 
+	legend ignore all elements without a label attribut set (label=)
+
+
+Page 253. 
+	By plotting fake data, you can make your own specified legend to map specific data
+
+
+Page 254.
+	You can create 2nd legend with ax.add_artist()
+	leg = Legend()
+	ax.add_artist(leg)
+
+
+
+
+
+				H. CUSTOMIZING COLORBARS
+
+Page 255.
+	In Matplotlib, colorbar is a colorbar is a separate axes that can provide a key for the meaning of colors in a plot.
+
+
+Page 256.
+	colormap can be specified with 'cmap' argument, use plt.cm.<tab> to see all available colormaps
+
+
+Page 257.
+    	Sequential colormaps: These are made up of one continuous sequence of colors (e.g., binary or viridis).
+    	Divergent colormaps: These usually contain two distinct colors, which show positive and negative deviations from a mean (e.g., RdBu or 	PuOr).
+    	Qualitative colormaps: these mix colors with no particular sequence (e.g., rainbow or jet).
+
+
+Page 259.
+	colorbar is simply an instance of plt.Axes
+
+
+page 260.
+	plt.imshow(I, cmap=plt.cm.get_cmap('Blues', 6)) 
+	make discrete color bar, 'Blues' is colormap and 6 is desired bins.
+
+
+
+
+
+				I. MULTIPLE SUBPLOTS
+
+Page 262.
+	Subplots: groups of smaller axes that can exist together within a single figure
+
+
+Page 263.
+	The basic method of creating an axes is to use plt.axes function.
+	Optional argument is four array [bottom, left, width, height]
+	Two first arguments is axes location, and the rest is axes size ratio
+
+
+Page 264.
+	plt.subplot
+	create a single subplot within the grid
+	
+	plt.subplot(212) # The number of row (2), the number of col(1), the index of the plot (2)
+
+Page 265.
+	(fig.subplots_adjust)
+	To adjust subplot spacing, use plt.subplots_adjust(hspace, wspace); h/wspace start from 0 to 1
+
+
+Page 266.
+	plt.subplots can make whole grid in one go, it formatted based on numpy 2d array. ex. (2, 3)
+
+
+Page 267.
+	plt.GridSpec create plot by Specified the geometry of the grid that a subplot can be placed in.
+	example grid = plt.GridSpec(2, 3)
+		plt.subplot(grid[0, 1:]) # row 0, column 1
+
+
+
+
+				J. TEXT AND ANNONATION
+
+Page 270.
+	ax.text(x, y, text)
+	make text with specified coordinates
+
+
+Page 271.
+	Place the text "independently" (apart from data) on figure or axes with transform:
+
+	ax.transData
+	Transform associated with data coordinates
+	
+	ax.transAxes (0 to 1)
+	Transform associated with the axes (in units of axes dimensions)
+	
+	fig.transFigure (0 to 1)
+	Transform associated with the figure (in units of figure dimensions)
+
+
+Page 272.
+	Create a text and an arrow with plt.annonate(), use arrowprops argument.
+
+
+
+	
+				K. CUSTOMIZING TICKS
+
+Page 276.
+	There is a concept of major tick mark and minor tick mark.
+	Major ticks usually bigger and pronounced (common ticks)
+	While, minor ticks are usually smaller and have no label
+	
+	Change ticks scale with plt.axes(xscale=, yscale=)
+
+
+Page 277.
+	You can hide tick or label with plt.NullLocator() and plt.NullFormater()
+	plt.axes().xaxis.set_major_locator( insert here )
+	plt.axes().yaxis.set_major_formatter ( insert here )	
+
+
+Page 279.
+	Reduce or Increase the number of ticks with plt.MaxNLocator()
+
+
+Page 280.
+	Place ticks at a multiple number you provide by setting a plt.MultipleLocator()
+
+
+Page 281.
+	Use plt.FuncFormatter to format the ticks with your own function
+
+
+	Matplotlib support LaTeX formatting, which enabled mathematical symbol and formulae within enclosing dollar signs $...$
+	
+
+
+
+				L. CUSTOMIZING MATPLOTLIB: CONFIGURATION AND STYLESHEET
+
+Page 282.
+	Use specific style plt.style.use('classic') ; can be any available style
+
+
+Page 286.
+	Check every available plotting style plt.style.available
+	
+	Former method will apply the style to the entire notebook use with built-in
+	with plt.style.context('stylename'):
+		make_a_plot()
+
+
+				
+
+				M. THREE-DIMENSIONAL PLOTTING IN MATPLOTLIB
+
+Page 290.
+	from mpl_toolkits import mplot3d, 3d plotting
+	
+	Once this submodule is imported, use projection=3d keyword inside plt.axes function.
+	ax = plt.axes(projection=3d)
+
+
+
+Page 291.
+	ax.plot3D, perform 3d plotting
+	ax.scatter3D, perform 3d scattering
+
+
+Page 292.
+	ax.contour3D, perform 3d contour	
+
+
+Page 293.
+	to see the 3d plot in different angle, use ax.view_init(arg1, arg2)
+	arg1 = degrees above x-y plane
+	arg2 = an azimuth of 35 degrees
+
+
+Page 294.
+	ax.plot_wireframe, change 3d gridded plot surface with the form of net.
+	ax.plot_surface, like wireframe but in the form of filled polygon.
+
+
+Page 295.
+	You can make surface triangulations with ax.scatter and ax.plot_trisurf
+
+
+
+
+				O. GEOGRAPHIC DATA WITH BASEMAP
+
+				P. VISUALIZATION WITH SEABORN
+
+Page 313.
+	To apply seaborn like plot, "import seaborn as sns" and then call sns.set()
+
+
+Page 314.
+	Rather than histogram, kernel density plot in seaborn is much better for plotting distribution 	data. sns.kdeplot()
+
+
+Page 315.
+	Hist and KDE can be combined using sns.distplot()
+
+
+	If you pass full 2d dataset to kdeplot, you will get two dimensional visualization of the data
+	sns.kdeplot()
+
+
+Page 316.
+	We can see the joint distribution and the marginal distribution together using sns.joinplot.
+	it also pass argument kind='hex' to use hexagonally based histogram.
+
+
+Page 317.
+	Pair plots is useful for exploring correlations between multidimensional data, when you like to 	plot all pairs of values against each other.
+	sns.pairplot(dataset)
+
+
+Page 318.
+	Sometimes the best way to see data is via histograms of subsets. sns.FacetGrid can do the job.
+	sns.FacetGrid(data, row, col)
+
+
+Page 320.
+	Factor plots allows you to view the distribution of a parameter within bins defined by other 		parameter.
+	sns.catplot(x, y, hue) # x,y for bins, hue for data
+
+
+	Similar to pair plot, sns.joinplot can show the joint distribution between different datasets.
+	sns.joinplot(x, y, dataset, kind=) [kind = scatter, reg, resid, kde, hex]
+	
+	You can also use ax_join.plot to add another axes
+
+Page 329.
+	sns.lmplot(x, y, data) can be use to plot data and regression model
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
