@@ -160,7 +160,7 @@ Page 56.
 Page 57
 	You can specify the array where the result of calculation will be stored.	np.ufunc(x, y, out=array1)
 	
-	if we’d like to reduce an array with a particular operation, we can use the reduce method of any ufunc.		
+	if weâ€™d like to reduce an array with a particular operation, we can use the reduce method of any ufunc.		
 	np.ufunc.reduce(x)
 
 	if we'd like to store all the intermediate results of the computation, we can instead use accumulate:		
@@ -276,9 +276,9 @@ Page 75.
 				G. FANCY INDEXING
 
 Page 78.
-	Fancy indexing is like the simple indexing we’ve already seen, but we pass
+	Fancy indexing is like the simple indexing weâ€™ve already seen, but we pass
 	arrays of indices in place of single scalars. This allows us to very quickly access and
-	modify complicated subsets of an array’s values.
+	modify complicated subsets of an arrayâ€™s values.
 
 Page 79.
 	Suppose we want to access three different elements. We could do it like this:
@@ -293,7 +293,7 @@ Page 79.
 Page 80.
 	Combined Indexing
 	For even more powerful operations, fancy indexing can be combined with the other
-	indexing schemes we’ve seen:
+	indexing schemes weâ€™ve seen:
 	
 	Combine fancy and simple indices				x[2, [2, 0, 1]]
 	
