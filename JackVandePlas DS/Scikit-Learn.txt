@@ -218,10 +218,10 @@ Page 351.
 		Xtrain, Xtest, ytrain, ytest = train_test_split(X_iris, y_iris, random_state=1)
 	
 	2. Predict the labels
-		from sklearn.naive_bayes import GaussianNB 	# 1. choose model class
+		from sklearn.naive_bayes import GaussianNB 			# 1. choose model class
 		model = GaussianNB() 						# 2. instantiate model
 		model.fit(Xtrain, ytrain) 					# 3. fit model to data
-		y_model = model.predict(Xtest) 				# 4. predict on new data
+		y_model = model.predict(Xtest) 					# 4. predict on new data
 
 	3. See the fraction of predicted labels that match their true value
 		from sklearn.metrics import accuracy_score
@@ -231,10 +231,10 @@ Page 351.
 Page 352.
 	-Unsupervised learning example: Iris dimensionality
 	
-	from sklearn.decomposition import PCA 	# 1. Choose the model class
-	model = PCA(n_components=2) 			# 2. Instantiate the model with hyperparameters
-	model.fit(X_iris) 						# 3. Fit to data. Notice y is not specified!
-	X2D  = model.transform(X_iris) 			# 4. Transform the data to two dimensions (n_components = 2)	
+	from sklearn.decomposition import PCA 			# 1. Choose the model class
+	model = PCA(n_components=2) 				# 2. Instantiate the model with hyperparameters
+	model.fit(X_iris) 					# 3. Fit to data. Notice y is not specified!
+	X2D  = model.transform(X_iris) 				# 4. Transform the data to two dimensions (n_components = 2)	
 
 
 	Plot the result
@@ -319,7 +319,7 @@ Page 361.
 	These two accuracy score can be combined by taking the mean.
 
 Page 362.
-	-We expand the idea and split the data into five groups. 
+	We can expand the idea and split the data into five groups. 
 	Use each of them in turn to evaluate the fit on the other 4/5 of the data.
 	
 	Syntax:
@@ -357,13 +357,76 @@ Page 364.
 	trade-off between bias and variance.
 	
 	1. High-bias model		: Underfits the data
-	2. High-variance model	: Overfits the data
-	
-	
-	
-	
+					  It does not have enough model flexibility to suitably account for all the
+					  features in the data. (High Bias)
+					  
+	2. High-variance model		: Overfits the data
+					  it has so much model flexibility that the model ends up accounting for 
+					  random errors as well as the underlying data distribution. (High Variance)
 
+Page 365.
+	-R-square / Coefficient of determination
+	Measures how well a model performs relative to a simple mean of the target values.
+	R-square = 1 indicates a perfect match.
+	R-square = 0 indicates the model does no better than simply taking the mean of the data, 
+		     and negative values mean even worse models.
 	
+	From the scores associated with these two models (R-squared), 
+	we can make an observation that holds more generally:
+	• For high-bias models, the performance of the model on the validation set is similar
+	  to the performance on the training set.
+	• For high-variance models, the performance of the model on the validation set is
+  	  far worse than the performance on the training set.
+	  
+	-Validation Curve Features
+	• The training score is everywhere higher than the validation score. This is generally
+	the case: the model will be a better fit to data it has seen than to data it has
+	not seen.
+	
+	• For very low model complexity (a high-bias model), the training data is underfit,
+	which means that the model is a poor predictor both for the training data and for
+	any previously unseen data.
+	
+	• For very high model complexity (a high-variance model), the training data is
+	overfit, which means that the model predicts the training data very well, but fails
+	for any previously unseen data.
+		
+	• For some intermediate value, the validation curve has a maximum. This level of
+	complexity indicates a suitable trade-off between bias and variance.
+	
+		
+	
+Page 366.
+	-Validation curve in Scikitlearn
+	-Using cross-validation to compute the validation curve for a class models:
+	
+	Assume we will use polynomial regression model, generalized linear model in which the degree of
+	the polynomial is tunable parameter.
+	Example: 
+	
+	A degree-1 poly fits straight line to the data; for model parameters a and b
+	y = ax + b
+	
+	A degree-3 poly fits a cubic curve to the data for model parameters a, b, c, d:
+	y = ax3 + bx2 + cx + d
+	
+	We can generalize this to any number of polynomial features. In Scikit-Learn, we can
+	implement this with a simple linear regression combined with the polynomial preprocessor.
+	
+	
+Page 337.
+	Make a pipeline, a set of data processing where the	from sklearn.pipeline import make_pipeline(estimator list)
+	output of one elements is the input of the other one
+	
+	Generate polynomial					from sklearn.preprocessing import PolynomialFeatures(degree)
+	
+	
+Page 368.
+	Create validation curve			from sklearn.model_selection import validation_curve
+						train_score, val_score = validation_curve(estimator, X, y,'param-name', 
+											  param-range, cross-validation)
+											  
+
 	
 
 	
