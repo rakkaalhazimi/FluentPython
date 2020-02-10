@@ -267,6 +267,11 @@ Page 354. Application of Exploring Handwritten Digits
 				C. HYPERPARAMETERS AND MODEL VALIDATION
 
 Page 359.
+	Model validation is very simple: after choosing a model and its hyperparameters,
+	we can estimate how effective it is by applying it to some of the training
+	data and comparing the prediction to the known value.
+
+Page 359 - 360.
 	-The choice of model and choice of hyperparameters—are perhaps the most important part of 
 	using these tools and techniques effectively. 
 
@@ -393,7 +398,6 @@ Page 365.
 		
 	• For some intermediate value, the validation curve has a maximum. This level of
 	complexity indicates a suitable trade-off between bias and variance.
-	
 		
 	
 Page 366.
@@ -425,9 +429,44 @@ Page 368.
 	Create validation curve			from sklearn.model_selection import validation_curve
 						train_score, val_score = validation_curve(estimator, X, y,'param-name', 
 											  param-range, cross-validation)
-											  
 
-	
+Page 370.
+	One important aspect of model complexity is that the optimal model will generally
+	depend on the size of your training data.
 
+Page 371 - 372.
+	Learning Curve
+	A plot of the training/validation score with respect to the size of the training set is
+	known as a learning curve.
 	
+	The general behavior we would expect from a learning curve is this:
+	• A model of a given complexity will overfit a small dataset: this means the training
+	  score will be relatively high, while the validation score will be relatively low.
 	
+	• A model of a given complexity will underfit a large dataset: this means that the
+	  training score will decrease, but the validation score will increase.
+	
+	• A model will never, except by chance, give a better score to the validation set than
+	  the training set: this means the curves should keep getting closer together but
+	  never cross.
+	
+	The notable feature of the learning curve is the convergence to a particular score as
+	the number of training samples grows. In particular, once you have enough points
+	that a particular model has converged, adding more training data will not help you!
+
+Page 372 - 373.
+	Learning Curve in Scikit-Learn
+	Create learning curve		learning_curve(PolynomialRegression(degree), X, y, cv=7, 
+							train_sizes=np.linspace(0.3, 1, 25))
+
+	In particular, when your learning curve has already converged 
+	(i.e., when the training and validation curves are already close to each other), 
+	adding more training data will not significantly improve the fit!
+	
+	The only way to increase the converged score is to use a different (usually more complicated)
+	model.
+	
+	Plotting a learning curve for your particular choice of model and dataset can help you
+	to make this type of decision about how to move forward in improving your analysis.
+
+Page 373. Validation Practice
