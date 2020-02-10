@@ -1,0 +1,350 @@
+				A. WHAT IS MACHINE LEARNING
+
+Page 332.
+	Machine Learning Definition
+	
+	In the data science application of machine learning methods,
+	it’s more helpful to think of machine learning as a means of building models of
+	data.
+
+	Fundamentally, machine learning involves building mathematicals models to help understand
+	data.
+
+	“Learning” enters the fray when we give these models tunable
+	parameters that can be adapted to observed data; in this way the program can be considered
+	to be “learning” from the data.
+
+	Once these models have been fit to previously seen data, they can be used to predict and 
+	understand aspects of newly observed data.
+
+	
+	Category of Machine Learning
+	1. Supervised Learning:			Build a model that will predict labels for new data.
+
+	2. Semi-supervised Learning:
+
+	3. Unsupervised Learning:		Involves models that describe data without reference to any known labels.
+
+
+Page 333.
+	Qualitative Examples of Machine Learning Applications
+
+	1. Classification: Predicting discrete labels (Supervised)
+		- Use a set of labeled points to classify some unlabeled points
+		- Algorithms :
+			a. Naive Bayes Classification
+			b. Support Vector Machines
+			c. Random Forest Classification
+
+
+Page 335.
+	2. Regression : Predicting continuous labels (Supervised)
+		- Same with classification, but the labels are continuous quantities
+		- Algorithms :
+			a. Linear Regression
+			b. Support Vector Machines
+			c. Random Forest Regression
+
+Page 338.
+	3. Clustering : Inferring labels on unlabeled data (Unsupervised)
+		- Data is automatically assigned to some number of discrete groups
+		- Algorithms:
+			a. K-means Clustering
+			b. Gaussian Mixture models
+			c. Spectral Clustering
+
+Page 340.
+	4. Dimensionality reduction: Inferring structure of unlabeled data (Unsupervised)
+		- Labels or other information are inferred from the structure of dataset itself.
+		- Pull out some low-dimensional representation of data that in some way preserves 
+		  relevant qualities of the full dataset.
+		- Algorithms:
+			a. Manifold Learning
+			b. Principal Component Analysis
+
+
+Page 342.
+	Summary
+	
+	Supervised learning
+	Models that can predict labels based on labeled training data
+	
+	Classification
+	Models that predict labels as two or more discrete categories
+	
+	Regression
+	Models that predict continuous labels
+	
+	Unsupervised learning
+	Models that identify structure in unlabeled data
+	
+	Clustering
+	Models that detect and identify distinct groups in the data
+	
+	Dimensionality reduction
+	Models that detect and identify lower-dimensional structure in higherdimensional
+	data
+
+
+
+
+				B. INTRODUCING SCIKIT-LEARN
+
+Page 343 - 344.
+	Data Representation in Scikit-Learn:
+	
+	Data as table, 
+	A basic table is a two-dimensional grid of data, 
+	in which the rows represent individual elements of the dataset,
+	and the column represent quantities related to each of these elements.
+
+	Features Matrix,
+	Two dimensional numerical array or matrix, Independent Variables
+
+	Target Array,
+	One dimensional array, Dependent Variable
+
+
+Page 346.
+	Scikit-Learn's Estimator API
+
+	Consistency
+	All objects share a common interface drawn from a limited set of methods, with
+	consistent documentation.
+
+	Inspection
+	All specified parameter values are exposed as public attributes.
+
+	Limited object hierarchy
+	Only algorithms are represented by Python classes; datasets are represented in
+	standard formats (NumPy arrays, Pandas DataFrames, SciPy sparse matrices) and
+	parameter names use standard Python strings.
+
+	Composition
+	Many machine learning tasks can be expressed as sequences of more fundamental
+	algorithms, and Scikit-Learn makes use of this wherever possible.
+
+	Sensible defaults
+	When models require user-specified parameters, the library defines an appropriate
+	default value.
+
+
+Page 347.
+	Basic of the API
+
+	1.Choose a class of model by importing the appropriate estimator class from Scikit-
+	  Learn.
+
+	2. Choose model hyperparameters by instantiating this class with desired values.
+
+	3. Arrange data into a features matrix and target vector following the discussion
+	   from before.
+
+	4. Fit the model to your data by calling the fit() method of the model instance.
+
+	5. Apply the model to new data:
+	   • For supervised learning, often we predict labels for unknown data using the
+	     predict() method.
+	   • For unsupervised learning, we often transform or infer properties of the data
+	     using the transform() or predict() method.
+
+
+Page 347 - 350.
+	Supervised Learning: Simple linear regression
+	
+	Variable x and Variable y
+	
+	1. Choose a class of model
+
+		from sklearn.linear_model import LinearRegression
+	
+	2. Choose model hyperparameters
+		Hyperparameters = a parameters that must be set before the model is fit to data.
+		
+		model = LinearRegression(fit_intercept=True)
+
+	3. Arrange the data into feature matrix and target vector.
+		Variable y is in correct form (1d array)
+		
+		y.shape
+		(50,)
+
+		But variable x must be reshape to matrix size
+		
+		X = x[:, np.newaxis]
+		X.shape
+		(50, 1)
+
+	4. Fit the model to your data
+		model.fit(X, y)
+		
+		fit() command causes a number of model-dependent internal computations
+		to take place, and the results of these computations are stored in modelspecific
+		attributes that the user can explore.
+		
+		Parameter that represent the slope and intercept
+		
+		model.coef_
+		model.intercept_
+
+	5. Predict labels for unknown data
+		-Once the model is trained, the main task of supervised machine learning is to
+		evaluate it based on what it says about new data that was not part of the training
+		set.
+
+		In Scikit-Learn we can do this using predict() method.
+		
+		new data will be a grid of x values
+		
+		xfit = np.linspace(-1, 11)
+
+		Coerce these x values into feature matrix
+		
+		Xfit = xfit[:, np.newaxis]
+		yfit = model.predict(Xfit)
+
+		Visualize the result, first plot is raw data, while second plot is model fit
+		
+		plt.scatter(x, y)
+		plt.plot(xfit, yfit)
+
+
+Page 351.
+	-Supervised learning example: Iris classification
+	
+	1. Split the data, so we can evaluate on data that has not seen before
+	
+		from sklearn.model_selection import train_test_split
+		Xtrain, Xtest, ytrain, ytest = train_test_split(X_iris, y_iris, random_state=1)
+	
+	2. Predict the labels
+		from sklearn.naive_bayes import GaussianNB 	# 1. choose model class
+		model = GaussianNB() 				# 2. instantiate model
+		model.fit(Xtrain, ytrain) 			# 3. fit model to data
+		y_model = model.predict(Xtest) 			# 4. predict on new data
+
+	3. See the fraction of predicted labels that match their true value
+		from sklearn.metrics import accuracy_score
+		accuracy_score(ytest, y_model)
+
+		
+Page 352.
+	-Unsupervised learning example: Iris dimensionality
+	
+	from sklearn.decomposition import PCA 		# 1. Choose the model class
+	model = PCA(n_components=2) 			# 2. Instantiate the model with hyperparameters
+	model.fit(X_iris) 				# 3. Fit to data. Notice y is not specified!
+	X2D  = model.transform(X_iris) 			# 4. Transform the data to two dimensions (n_components = 2)	
+
+
+	Plot the result
+
+	iris['PCA1'] = X_2D[:, 0]
+	iris['PCA2'] = X_2D[:, 1]
+	sns.lmplot("PCA1", "PCA2", hue='species', data=iris, fit_reg=False);
+	
+
+Page 353.
+	-Unsupervised learning: Iris clustering
+
+	from sklearn.mixture import GaussianMixture 	# 1. Choose the model class
+	model = Gaussian Mixture(n_components=3,
+		covariance_type='full') 		# 2. Instantiate the model w/ hyperparameters
+	model.fit(X_iris) 				# 3. Fit to data. Notice y is not specified!
+	y_gmm = model.predict(X_iris) 			# 4. Determine cluster labels
+
+	Plot the result
+	
+	iris['cluster'] = y_gmm 
+	sns.lmplot("PCA1", "PCA2", data=iris, hue='species', col='cluster', fit_reg=False);
+
+
+Page 354. Application of Exploring Handwritten Digits
+
+
+
+
+				C. HYPERPARAMETERS AND MODEL VALIDATION
+
+Page 359.
+	-The choice of model and choice of hyperparameters—are perhaps the most important part of 
+	using these tools and techniques effectively. 
+
+	In order to make an informed choice, we need a way to validate that our model and our
+	hyperparameters are a good fit to the data.
+
+	
+	-Model Validation the wrong way : 
+	It trains and evaluates the model on the same data, so it will get 100% accuracy every time !
+
+	Syntax:
+	from sklearn.datasets import load_iris 			# 1. Prepare the data
+	iris = load_iris()
+	X = iris.data
+	y = iris.target
+	
+	from sklearn.neighbors import KNeighborsClassifier 	# 2. Choose model and hyperparameters
+	model = KNeighborsClassifier(n_neighbors=1)
+
+	model.fit(X, y)						# 3. Train the model
+	y_model = model.predict(X)
+	
+	from sklearn.metrics import accuracy_score		# 4.
+	accuracy_score(y, y_model)	
+
+Page 360.
+	-Model Validation the right way : Holdout sets
+	Better model's performance can be achieved using holdout sets, we hold back some subset of data from the training model
+	and then use it to check the model's performance.
+	
+	In Scikit-Learn we can do this by splitting the data using train_test_split.
+	
+	Syntax:
+	from sklearn.cross_validation import train_test_split
+	# split the data with 50% in each set
+	X1, X2, y1, y2 = train_test_split(X, y, random_state=0, train_size=0.5)
+
+Page 361.
+	-Model Validation via cross-validation
+	The holdout set model validation disadvantage is we have lost a portion of our data to model training.
+	
+	-One way to remedy this is to use cross-validation, do a sequence of fits where each subsets of data
+	is used both as training set and as a validation set.
+
+	Syntax:
+	y2_model = model.fit(X1, y1).predict(X2)
+	y1_model = model.fit(X2, y2).predict(X1)
+	accuracy_score(y1, y1_model), accuracy_score(y2, y2_model)
+	
+	These two accuracy score can be combined by taking the mean.
+
+Page 362.
+	-We expand the idea and split the data into five groups. 
+	Use each of them in turn to evaluate the fit on the other 4/5 of the data.
+	
+	Syntax:
+	from sklearn.model_selection import cross_val_score
+	cross_val_score(model, X, y, cv=5)
+
+	-There is an extreme case where we the numbers of folds is equal to the number of data points.
+	We train on all points but one in each trial. This type is knows as leave-one-out cross-validation.
+	
+	Syntax:
+	from sklearn.cross_validation import LeaveOneOut
+	scores = cross_val_score(model, X, y, cv=LeaveOneOut(len(X)))
+	scores
+
+
+Page 363.
+	if our estimator is underperforming, how
+	should we move forward? There are several possible answers:
+	• Use a more complicated/more flexible model
+	• Use a less complicated/less flexible model
+	• Gather more training samples
+	• Gather more data to add features to each sample 
+
+	
+	
+
+	
+	
