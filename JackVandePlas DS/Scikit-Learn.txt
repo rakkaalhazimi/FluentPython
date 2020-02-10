@@ -219,9 +219,9 @@ Page 351.
 	
 	2. Predict the labels
 		from sklearn.naive_bayes import GaussianNB 	# 1. choose model class
-		model = GaussianNB() 				# 2. instantiate model
-		model.fit(Xtrain, ytrain) 			# 3. fit model to data
-		y_model = model.predict(Xtest) 			# 4. predict on new data
+		model = GaussianNB() 						# 2. instantiate model
+		model.fit(Xtrain, ytrain) 					# 3. fit model to data
+		y_model = model.predict(Xtest) 				# 4. predict on new data
 
 	3. See the fraction of predicted labels that match their true value
 		from sklearn.metrics import accuracy_score
@@ -231,9 +231,9 @@ Page 351.
 Page 352.
 	-Unsupervised learning example: Iris dimensionality
 	
-	from sklearn.decomposition import PCA 		# 1. Choose the model class
+	from sklearn.decomposition import PCA 	# 1. Choose the model class
 	model = PCA(n_components=2) 			# 2. Instantiate the model with hyperparameters
-	model.fit(X_iris) 				# 3. Fit to data. Notice y is not specified!
+	model.fit(X_iris) 						# 3. Fit to data. Notice y is not specified!
 	X2D  = model.transform(X_iris) 			# 4. Transform the data to two dimensions (n_components = 2)	
 
 
@@ -336,12 +336,32 @@ Page 362.
 
 
 Page 363.
-	if our estimator is underperforming, how
+	-Selecting Best Model
+	
+	if our estimator is underperforming, how 
 	should we move forward? There are several possible answers:
+	
 	• Use a more complicated/more flexible model
 	• Use a less complicated/less flexible model
 	• Gather more training samples
-	• Gather more data to add features to each sample 
+	• Gather more data to add features to each sample
+	
+	In particular, sometimes using a
+	more complicated model will give worse results, and adding more training samples
+	may not improve your results! The ability to determine what steps will improve your
+	model is what separates the successful machine learning practitioners from the
+	unsuccessful.
+
+Page 364.
+	Fundamentally, the question of “the best model” is about finding a sweet spot in the
+	trade-off between bias and variance.
+	
+	1. High-bias model		: Underfits the data
+	2. High-variance model	: Overfits the data
+	
+	
+	
+	
 
 	
 	
