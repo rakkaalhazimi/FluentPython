@@ -470,3 +470,120 @@ Page 372 - 373.
 	to make this type of decision about how to move forward in improving your analysis.
 
 Page 373. Validation Practice
+
+D. FEATURE ENGINEERING
+
+Page 375.
+	All of the examples assume that you have numerical data in a tidy, [n_samples, n_features] 
+	format. In the real world, data rarely comes in such a form. 
+	
+	With this in mind, one of the more important steps in using machine learning 
+	in practice is feature engineering— that is, taking whatever information you 
+	have about your problem and turning it into numbers that you can use to build 
+	your feature matrix.
+
+Page 376 - 377.
+	Categorical Feature
+	
+	One common type of non-numerical data is categorical data.
+	for example:
+	data = [
+		{'price': 850000, 'rooms': 4, 'neighborhood': 'Queen Anne'},
+		{'price': 700000, 'rooms': 3, 'neighborhood': 'Fremont'},
+		{'price': 650000, 'rooms': 3, 'neighborhood': 'Wallingford'},
+		{'price': 600000, 'rooms': 2, 'neighborhood': 'Fremont'}
+		]
+	
+	In this case, one proven technique is to use one-hot encoding, which effectively creates
+	extra columns indicating the presence or absence of a category with a value of 1 or 0,
+	respectively. When your data comes as a list of dictionaries, Scikit-Learn’s DictVector
+	izer will do this for you:
+
+	from sklearn.feature_extraction import DictVectorizer
+	vec = DictVectorizer(sparse=False, dtype=int)
+	vec.fit_transform(data)
+
+	There is one clear disadvantage of this approach: if your category has many possible
+	values, this can greatly increase the size of your dataset.
+	A sparse output can be a very efficient solution.
+	
+	vec = DictVectorizer(sparse=True, dtype=int)
+
+Page 377 - 378
+	-Text Features
+
+	One of the simplest methods of encoding data is by word counts: 
+	you take each snippet of text, count the occurrences of each word within it, 
+	and put the results in a table.
+
+	sample = ['problem of evil',
+		'evil queen',
+		'horizon problem']
+	
+	Scikit-Learn's CountVectorizer can do the job:
+
+	from sklearn.feature_extraction.text import CountVectorizer
+	vec = CountVectorizer()
+	X = vec.fit_transform(sample)
+	X
+
+	however: 
+	the raw word counts lead to features
+	that put too much weight on words that appear very frequently,
+	
+	we can fix it with:
+	frequency–inverse document frequency (TF–IDF), which weights the word counts
+	by a measure of how often they appear in the documents.
+
+	from sklearn.feature_extraction.text import TfidfVectorizer
+	vec = TfidfVectorizer()
+	X = vec.fit_transform(sample)
+
+Page 378. 
+	- Image Features
+	Encode images for machine learning by simply using the pixel values themselves. 
+	But depending on the application, such approaches may not be optimal.
+	Read the Scikit-image project documentation.
+
+Page 378 - 380.
+	- Derived Features
+	Another useful type of feature is one that is mathematically derived from some input
+	features.
+
+	Basis function regression, convert linear a linear regression into a polynomial regression 
+	not by changing the model, but by transforming the input!
+
+Page 381.
+	-Imputation of Missing Data
+	When applying a typical machine learning model to incomplete data, we will need to first
+	replace such missing data with some appropriate fill value.
+	
+	-Handling approach
+	For a baseline imputation approach, using the mean, median, or most
+	frequent value, Scikit-Learn provides the Imputer class:
+
+	from sklearn.impute import SimpleImputer
+	imp = SimpleImputer(strategy='mean')
+	X2 = imp.fit_transform(X)
+	X2
+
+Page 381 - 382.
+	-Feature Pipelines
+	Sometimes you need to string multiple steps, for example:
+	1. Impute missing values using the mean
+	2. Transform features to quadratic
+	3. Fit a linear regression
+
+	To streamline this type of processing pipeline, Scikit-Learn provides a pipeline object,
+	which can be used as follows:
+	
+	from sklearn.pipeline import make_pipeline
+	model = make_pipeline(Imputer(strategy='mean'), PolynomialFeatures(degree=2),
+				LinearRegression())
+
+	This pipeline looks and acts like a standard Scikit-Learn object, and will apply all the
+	specified steps to any input data.
+
+	model.fit(X, y) # X with missing values, from above
+	print(y)
+	print(model.predict(X))
