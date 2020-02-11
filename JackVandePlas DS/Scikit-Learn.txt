@@ -601,5 +601,8 @@ Page 383 - 384.
 	
 	To create simple model, assume that the data is described by a Gaussian distribution with 
 	no covariance between dimensions.
+
+Page 386.
+	-Multinomial Naive Bayes
 	
 	
